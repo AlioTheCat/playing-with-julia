@@ -63,7 +63,7 @@ function can_catch_up(x,y)
 end
 
 
-function simulation(M=100, display=false, circle=true)
+function simulation(M=100, disp=false, circle=true)
     global m₁ = M
     global m₂ = 1
 
@@ -82,32 +82,32 @@ function simulation(M=100, display=false, circle=true)
         @assert typeof(y)==BigFloat
 
         box_collision!(x,y)
-        if display
+        if disp
             append!(X, Float64(x))
             append!(Y, Float64(y))
         end
         global N += 1
 
-        if display
+        if disp
             print("Box collision ($N) : $x, $y \n")
         end
 
         if y < 0
             wall_collision!(x,y)
-            if display
+            if disp
                 append!(X, Float64(x))
                 append!(Y, Float64(y))
             end
             global N += 1
 
-            if display
+            if disp
                 print("Wall collision ($N) : $x, $y \n")
             end
         end
     end
     print("The tiny box encountered $N collisions\n")
     
-    if display && N ≤ 1000 # Let's keep this useful
+    if disp && N ≤ 10000 # Let's keep this useful
         if circle
             fig = plot()
             plot!(fig, X, Y)
@@ -115,7 +115,8 @@ function simulation(M=100, display=false, circle=true)
             plot!(fig, cos.(t), sin.(t)) 
             print("Plotted the states in the state space")
         else
-            plot(X, Y)
+            plot!(fig, X, Y)
         end
+        display(fig)
     end
 end
